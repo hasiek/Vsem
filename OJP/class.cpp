@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -35,6 +36,7 @@ public:
 	bool is_adult() const;
 	void birthday(const int years = 1);
 	int will_retire_in() const;
+	string info() const;
 	
 };
 
@@ -63,6 +65,7 @@ public:
 	int finishing_year() const; // function returns in how many years student will graduate
 	double students_discount(int& ticket_price) const;
 	string is_working(const bool is_he) const;
+	string info() const;
 	
 };
 
@@ -83,6 +86,7 @@ public:
 	bool if_conjugal_discount(const string marital_status) const;
 	double count_discount(const bool if_discount, int& pension) const;
 	double raise_pension(int& pension);
+	string info() const;
 	
 };
 
@@ -179,6 +183,14 @@ int Man::will_retire_in() const {
 	
 }
 
+string Man::info() const{
+	
+	stringstream stream;
+	stream << "INFO: " << "IS A MAMMAL: " << ((is_a_mammal) ? "yes" : "false") << ", PESEL: " << pesel << ", NAME: " << name << ", AGE: " << age << ", MARITAL STATUS: " << marital_status << ", HOMETOWN: " << hometown;
+	return stream.str();
+	
+}
+
 Student::Student():
 	Man(),
 	university("N/A"),
@@ -263,6 +275,13 @@ string Student::is_working(const bool is_he) const {
 
 }
 
+string Student::info() const {
+	
+	stringstream stream;
+	stream << ", UNIVERSITY: " << university << ", YEAR OF STUDIES: " << year_of_studies << ", IS IN PUBLIC SCHOOL: " << ((if_public_school) ? "Yes" : "No") << ", PROMOTER " << promoter.info() << endl;
+	return (Man::info()) + stream.str();
+}
+
 Pensioner::Pensioner():
 	Man(),
 	pension(0),
@@ -318,6 +337,14 @@ double Pensioner::raise_pension(int& pension) {
 	
 }
 
+string Pensioner::info() const {
+	
+	stringstream stream;
+	stream << ", PENSION: " << pension << ", GRANDCHILDREN: " << grandchildren << endl;
+	return (Man::info()) + stream.str();
+	
+}
+
 int main() {
 	
 	Man hairdresser = Man("73013010295", "Mary", 30, "married", "New York");
@@ -337,7 +364,8 @@ int main() {
 	
 	cout << "Android's name is " << android.get_name() << '.' << endl;
 	// android.set_name("Antoni"); - an error occurs while trying to use this function
-	cout << hairdresser.get_is_a_mammal() << endl;
+	cout << johns_granny.info() << endl;
 	
-
+	return 0;
+	
 }
