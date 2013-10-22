@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ public:
 	void set_name(const string& name_to_set);
 	
 	int get_age() const;
-	void set_age(const int& age_to_set);
+	void set_age(int age_to_set);
 	
 	string get_status() const;
 	void set_status(const string& status);
@@ -34,9 +35,11 @@ public:
 	static bool get_is_a_mammal();
 	
 	bool is_adult() const;
-	void birthday(const int& years = 1);
+	void birthday(int years = 1);
 	int will_retire_in() const;
 	string info() const;
+	void serialize(ostream& save);
+	static Man deserialize(istream& save);
 	
 };
 
@@ -54,17 +57,17 @@ public:
 	void set_university(const string& uni);
 	
 	int get_year() const;
-	void set_year(const int& year);
+	void set_year(int year);
 	
 	bool get_public() const;
-	void set_public(const bool& if_public);
+	void set_public(bool if_public);
 	
 	Man get_promoter() const;
-	void set_promoter(const string& pesel_to_set, const string& name_to_set, const int& age_to_set);
+	void set_promoter(const string& pesel_to_set, const string& name_to_set, int age_to_set);
 	
 	int finishing_year() const; // function returns in how many years student will graduate
-	double students_discount(int& ticket_price) const;
-	string is_working(const bool& is_he) const;
+	double students_discount(int ticket_price) const;
+	string is_working(bool is_he) const;
 	string info() const;
 	
 };
@@ -78,14 +81,14 @@ public:
 	Pensioner(string pesel_to_set, string name_to_set, int age_to_set, string status, string hometown_to_set, int pension_to_set, int how_many_grandchildren);
 		
 	int get_pension() const;
-	void set_pension(const int& pension_to_set);
+	void set_pension(int pension_to_set);
 	
 	int get_grandchildren() const;
-	void set_grandchildren(const int& how_many_grandchildren);
+	void set_grandchildren(int how_many_grandchildren);
 	
 	bool if_conjugal_discount(const string& marital_status) const;
-	double count_discount(const bool& if_discount, int& pension) const;
-	double raise_pension(int& pension);
+	double count_discount(bool if_discount, int pension) const;
+	double raise_pension(int pension);
 	string info() const;
 	
 };
@@ -130,7 +133,7 @@ int Man::get_age() const {
 	
 }
 
-void Man::set_age(const int& age_to_set) {
+void Man::set_age(int age_to_set) {
 	
 	age = age_to_set;
 	
@@ -171,7 +174,7 @@ bool Man::is_adult() const {
 	return age >= 18;
 }
 
-void Man::birthday(const int& years) {
+void Man::birthday(int years) {
 	
 	age += years;
 	
@@ -189,6 +192,54 @@ string Man::info() const{
 	stream << "INFO: " << "IS A MAMMAL: " << ((is_a_mammal) ? "yes" : "false") << ", PESEL: " << pesel << ", NAME: " << name << ", AGE: " << age << ", MARITAL STATUS: " << marital_status << ", HOMETOWN: " << hometown;
 	return stream.str();
 	
+}
+
+void Man::serialize(ostream& save) {
+	
+	save << ((is_a_mammal) ? "true" : "false") << '\n';
+	save << pesel << '\n';
+	save << name << '\n';
+	save << age << '\n';
+	save << marital_status << '\n';
+	save << hometown << '\n';
+	
+}
+
+Man Man::deserialize(istream& save) {
+	
+	string garbage;
+	
+	string is_mammal_s;
+	getline(save, is_mammal_s);
+	
+	// Testing couts in comments
+
+	string pesel;
+	getline(save, pesel);
+	// cout << pesel << endl;
+
+	string name;
+	getline(save, name);
+	// cout << name << endl;
+
+	string age_s;
+	getline(save, age_s);
+
+	int age;
+	istringstream temp(age_s);
+	temp >> age; 
+	// cout << age << endl;
+	
+	string marital_status;
+	getline(save, marital_status);
+	// cout << marital_status << endl;
+
+	string hometown;
+	getline(save, hometown);
+	// cout << hometown << endl;
+	
+	Man deserialized = Man(pesel, name, age, marital_status, hometown);
+	return deserialized;
 }
 
 Student::Student():
@@ -223,7 +274,7 @@ int Student::get_year() const {
 	
 }
 
-void Student::set_year(const int& year) {
+void Student::set_year(int year) {
 	
 	year_of_studies = year;
 	
@@ -235,7 +286,7 @@ bool Student::get_public() const {
 	
 }
 
-void Student::set_public(const bool& if_public) {
+void Student::set_public(bool if_public) {
 	
 	if_public_school = if_public;
 	
@@ -247,7 +298,7 @@ Man Student::get_promoter() const {
 		
 }
 
-void Student::set_promoter(const string& pesel_to_set, const string& name_to_set, const int& age_to_set) {
+void Student::set_promoter(const string& pesel_to_set, const string& name_to_set, int age_to_set) {
 	
 	promoter.set_name(name_to_set);
 	promoter.set_age(age_to_set);
@@ -260,13 +311,13 @@ int Student::finishing_year() const {
 	
 }
 
-double Student::students_discount(int& ticket_price) const {
+double Student::students_discount(int ticket_price) const {
 	
 	return ticket_price * 0.5;
 	
 }
 
-string Student::is_working(const bool& is_he) const {
+string Student::is_working(bool is_he) const {
 	
 	if (is_he == true) 
 		return "Working student";
@@ -298,7 +349,7 @@ int Pensioner::get_pension() const {
 	
 }
 
-void Pensioner::set_pension(const int& pension_to_set) {
+void Pensioner::set_pension(int pension_to_set) {
 	
 	pension = pension_to_set;
 	
@@ -310,7 +361,7 @@ int Pensioner::get_grandchildren() const {
 	
 }
 
-void Pensioner::set_grandchildren(const int& how_many_grandchildren) {
+void Pensioner::set_grandchildren(int how_many_grandchildren) {
 	
 	grandchildren = how_many_grandchildren;
 	
@@ -322,7 +373,7 @@ bool Pensioner::if_conjugal_discount(const string& marital_status) const {
 		
 }
 
-double Pensioner::count_discount(const bool& if_discount, int& pension) const {
+double Pensioner::count_discount(bool if_discount, int pension) const {
 	
 	if (if_discount == true)
 		return pension * 0.15;
@@ -331,7 +382,7 @@ double Pensioner::count_discount(const bool& if_discount, int& pension) const {
 		
 }
 
-double Pensioner::raise_pension(int& pension) {
+double Pensioner::raise_pension(int pension) {
 	
 	return pension += pension * 0.1;
 	
@@ -347,13 +398,13 @@ string Pensioner::info() const {
 
 int main() {
 	
-	Man hairdresser = Man("73013010295", "Mary", 30, "married", "New York");
+	Man hairdresser("73013010295", "Mary", 30, "married", "New York");
 	Student lawyer2b = Student("93020211964", "John", 20, "single", "Cambridge", "Cambridge University", 3, true, "58041267987", "Mark", 55);
 	Pensioner johns_granny("31121267854", "Else", 72, "widow", "Yorkshire", 2500, 4);
 	Man unknown = Man();
 	const Man android = Man();
 	
-	cout << "John's grandmother is " << johns_granny.get_name() << '.' << endl;
+	/* cout << "John's grandmother is " << johns_granny.get_name() << '.' << endl;
 	cout << "John's promoter is " << lawyer2b.get_promoter().get_name() << '.' << endl;
 	hairdresser.birthday(5);
 	cout << "Mary is " << hairdresser.get_age() << " years old." << endl;
@@ -364,7 +415,20 @@ int main() {
 	
 	cout << "Android's name is " << android.get_name() << '.' << endl;
 	// android.set_name("Antoni"); - an error occurs while trying to use this function
-	cout << johns_granny.info() << endl;
+	cout << johns_granny.info() << endl; */
+	
+	filebuf fb;
+	fb.open("serial.txt", ios::out);
+	ostream save(&fb);
+	hairdresser.serialize(save);
+	fb.close();
+	
+	filebuf fb1;
+	fb1.open("serial.txt", ios::in);
+	istream out(&fb1);
+	Man hairdresser_clone = Man::deserialize(out);
+	
+	cout << hairdresser_clone.info() << endl;
 	
 	return 0;
 	
