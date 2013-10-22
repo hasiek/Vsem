@@ -20,21 +20,21 @@ public:
 	string get_pesel() const;
 	
 	string get_name() const;
-	void set_name(const string name_to_set);
+	void set_name(const string& name_to_set);
 	
 	int get_age() const;
-	void set_age(const int age_to_set);
+	void set_age(const int& age_to_set);
 	
 	string get_status() const;
-	void set_status(const string status);
+	void set_status(const string& status);
 	
 	string get_hometown() const;
-	void set_hometown(const string hometown_to_set);
+	void set_hometown(const string& hometown_to_set);
 	
 	static bool get_is_a_mammal();
 	
 	bool is_adult() const;
-	void birthday(const int years = 1);
+	void birthday(const int& years = 1);
 	int will_retire_in() const;
 	string info() const;
 	
@@ -51,20 +51,20 @@ public:
 	Student(string pesel_to_set, string name_to_set, int age_to_set, string status, string hometown_to_set, string uni, int year, bool if_public, string promoter_pesel, string promoter_name, int promoter_age);
 	
 	string get_university() const;
-	void set_university(const string uni);
+	void set_university(const string& uni);
 	
 	int get_year() const;
 	void set_year(const int& year);
 	
 	bool get_public() const;
-	void set_public(const bool if_public);
+	void set_public(const bool& if_public);
 	
 	Man get_promoter() const;
-	void set_promoter(const string pesel_to_set, const string name_to_set, const int age_to_set);
+	void set_promoter(const string& pesel_to_set, const string& name_to_set, const int& age_to_set);
 	
 	int finishing_year() const; // function returns in how many years student will graduate
 	double students_discount(int& ticket_price) const;
-	string is_working(const bool is_he) const;
+	string is_working(const bool& is_he) const;
 	string info() const;
 	
 };
@@ -78,13 +78,13 @@ public:
 	Pensioner(string pesel_to_set, string name_to_set, int age_to_set, string status, string hometown_to_set, int pension_to_set, int how_many_grandchildren);
 		
 	int get_pension() const;
-	void set_pension(const int pension_to_set);
+	void set_pension(const int& pension_to_set);
 	
 	int get_grandchildren() const;
-	void set_grandchildren(const int how_many_grandchildren);
+	void set_grandchildren(const int& how_many_grandchildren);
 	
-	bool if_conjugal_discount(const string marital_status) const;
-	double count_discount(const bool if_discount, int& pension) const;
+	bool if_conjugal_discount(const string& marital_status) const;
+	double count_discount(const bool& if_discount, int& pension) const;
 	double raise_pension(int& pension);
 	string info() const;
 	
@@ -118,7 +118,7 @@ string Man::get_name() const {
 	
 }
 
-void Man::set_name(const string name_to_set) {
+void Man::set_name(const string& name_to_set) {
 	
 	name = name_to_set;
 	
@@ -130,7 +130,7 @@ int Man::get_age() const {
 	
 }
 
-void Man::set_age(const int age_to_set) {
+void Man::set_age(const int& age_to_set) {
 	
 	age = age_to_set;
 	
@@ -142,7 +142,7 @@ string Man::get_status() const {
 	
 }
 
-void Man::set_status(const string status) {
+void Man::set_status(const string& status) {
 	
 	marital_status = status;
 	
@@ -154,7 +154,7 @@ string Man::get_hometown() const {
 	
 }
 
-void Man::set_hometown(const string hometown_to_set) {
+void Man::set_hometown(const string& hometown_to_set) {
 	
 	hometown = hometown_to_set;
 	
@@ -171,7 +171,7 @@ bool Man::is_adult() const {
 	return age >= 18;
 }
 
-void Man::birthday(const int years) {
+void Man::birthday(const int& years) {
 	
 	age += years;
 	
@@ -211,7 +211,7 @@ string Student::get_university() const {
 	
 }
 
-void Student::set_university(const string uni) {
+void Student::set_university(const string& uni) {
 	
 	university = uni;
 	
@@ -235,7 +235,7 @@ bool Student::get_public() const {
 	
 }
 
-void Student::set_public(const bool if_public) {
+void Student::set_public(const bool& if_public) {
 	
 	if_public_school = if_public;
 	
@@ -247,7 +247,7 @@ Man Student::get_promoter() const {
 		
 }
 
-void Student::set_promoter(const string pesel_to_set, const string name_to_set, const int age_to_set) {
+void Student::set_promoter(const string& pesel_to_set, const string& name_to_set, const int& age_to_set) {
 	
 	promoter.set_name(name_to_set);
 	promoter.set_age(age_to_set);
@@ -266,7 +266,7 @@ double Student::students_discount(int& ticket_price) const {
 	
 }
 
-string Student::is_working(const bool is_he) const {
+string Student::is_working(const bool& is_he) const {
 	
 	if (is_he == true) 
 		return "Working student";
@@ -298,7 +298,7 @@ int Pensioner::get_pension() const {
 	
 }
 
-void Pensioner::set_pension(const int pension_to_set) {
+void Pensioner::set_pension(const int& pension_to_set) {
 	
 	pension = pension_to_set;
 	
@@ -310,19 +310,19 @@ int Pensioner::get_grandchildren() const {
 	
 }
 
-void Pensioner::set_grandchildren(const int how_many_grandchildren) {
+void Pensioner::set_grandchildren(const int& how_many_grandchildren) {
 	
 	grandchildren = how_many_grandchildren;
 	
 }
 
-bool Pensioner::if_conjugal_discount(const string marital_status) const {
+bool Pensioner::if_conjugal_discount(const string& marital_status) const {
 	
 	return marital_status == "married";
 		
 }
 
-double Pensioner::count_discount(const bool if_discount, int& pension) const {
+double Pensioner::count_discount(const bool& if_discount, int& pension) const {
 	
 	if (if_discount == true)
 		return pension * 0.15;
