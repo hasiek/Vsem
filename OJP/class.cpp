@@ -92,6 +92,8 @@ public:
 	double count_discount(bool if_discount, int pension) const;
 	double raise_pension(int pension);
 	string info() const;
+	void serialize(ostream& save);
+	static Pensioner deserialize(istream& save);
 	
 };
 
@@ -435,6 +437,37 @@ string Pensioner::info() const {
 	
 }
 
+void Pensioner::serialize(ostream& save) {
+	
+	Man::serialize(save);
+	save << pension << '\n';
+	save << grandchildren << '\n';
+	
+}
+
+Pensioner Pensioner::deserialize(istream& save) {
+	
+	Man pensioner = Man::deserialize(save);
+	
+	string pension_s;
+	getline(save, pension_s);
+	
+	int pension;
+	istringstream temp(pension_s);
+	temp >> pension; 
+	
+	string grandchildren_s;
+	getline(save, grandchildren_s);
+	
+	int grandchildren;
+	istringstream temp1(grandchildren_s);
+	temp1 >> grandchildren; 
+	
+	Pensioner deserialized = Pensioner(pensioner.get_pesel(), pensioner.get_name(), pensioner.get_age(), pensioner.get_status(), pensioner.get_hometown(), pension, grandchildren);
+	return deserialized;
+	
+}
+
 int main() {
 	
 	Man hairdresser("73013010295", "Mary", 30, "married", "New York");
@@ -459,15 +492,15 @@ int main() {
 	filebuf fb;
 	fb.open("serial.txt", ios::out);
 	ostream save(&fb);
-	lawyer2b.serialize(save);
+	johns_granny.serialize(save);
 	fb.close();
 	
 	filebuf fb1;
 	fb1.open("serial.txt", ios::in);
 	istream out(&fb1);
-	Student student = Student::deserialize(out);
+	Pensioner clone = Pensioner::deserialize(out);
 	
-	cout << student.info() << endl;
+	cout << clone.info() << endl;
 	
 	return 0;
 	
