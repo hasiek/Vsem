@@ -69,6 +69,8 @@ public:
 	double students_discount(int ticket_price) const;
 	string is_working(bool is_he) const;
 	string info() const;
+	void serialize(ostream& save);
+	static Student deserialize(istream& save);
 	
 };
 
@@ -333,6 +335,43 @@ string Student::info() const {
 	return (Man::info()) + stream.str();
 }
 
+void Student::serialize(ostream& save) {
+	
+	Man::serialize(save);
+	save << university << '\n';
+	save << year_of_studies << '\n';
+	save << if_public_school << '\n';
+	promoter.serialize(save);
+	
+}
+
+Student Student::deserialize(istream& save) {
+	
+	Man student = Man::deserialize(save);
+	
+	string university;
+	getline(save, university);
+	
+	string year_s;
+	getline(save, year_s);
+	
+	int year;
+	istringstream temp(year_s);
+	temp >> year; 
+	
+	string public_school_s;
+	getline(save, public_school_s);
+	
+	bool public_school;
+	public_school = (public_school_s == "1" ? true : false);
+	
+	Man promoter = Man::deserialize(save);
+	
+	Student deserialized = Student(student.get_pesel(), student.get_name(), student.get_age(), student.get_status(), student.get_hometown(), university, year, public_school, promoter.get_pesel(), promoter.get_name(), promoter.get_age());
+	return deserialized;
+	
+}
+
 Pensioner::Pensioner():
 	Man(),
 	pension(0),
@@ -420,15 +459,15 @@ int main() {
 	filebuf fb;
 	fb.open("serial.txt", ios::out);
 	ostream save(&fb);
-	hairdresser.serialize(save);
+	lawyer2b.serialize(save);
 	fb.close();
 	
 	filebuf fb1;
 	fb1.open("serial.txt", ios::in);
 	istream out(&fb1);
-	Man hairdresser_clone = Man::deserialize(out);
+	Student student = Student::deserialize(out);
 	
-	cout << hairdresser_clone.info() << endl;
+	cout << student.info() << endl;
 	
 	return 0;
 	
