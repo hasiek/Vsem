@@ -494,6 +494,7 @@ int main() {
 	ostream save(&fb);
 	lawyer2b.serialize(save);
 	fb.close();
+	cout << lawyer2b.info() << endl;
 	
 	filebuf fb1;
 	fb1.open("serial.txt", ios::in);
