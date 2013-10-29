@@ -492,13 +492,13 @@ int main() {
 	filebuf fb;
 	fb.open("serial.txt", ios::out);
 	ostream save(&fb);
-	johns_granny.serialize(save);
+	lawyer2b.serialize(save);
 	fb.close();
 	
 	filebuf fb1;
 	fb1.open("serial.txt", ios::in);
 	istream out(&fb1);
-	Pensioner clone = Pensioner::deserialize(out);
+	Student clone = Student::deserialize(out);
 	
 	cout << clone.info() << endl;
 	
