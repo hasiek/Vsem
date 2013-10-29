@@ -38,7 +38,7 @@ public:
 	void birthday(int years = 1);
 	int will_retire_in() const;
 	string info() const;
-	void serialize(ostream& save);
+	void serialize(ostream& save) const;
 	static Man deserialize(istream& save);
 	
 };
@@ -69,7 +69,7 @@ public:
 	double students_discount(int ticket_price) const;
 	string is_working(bool is_he) const;
 	string info() const;
-	void serialize(ostream& save);
+	void serialize(ostream& save) const;
 	static Student deserialize(istream& save);
 	
 };
@@ -92,7 +92,7 @@ public:
 	double count_discount(bool if_discount, int pension) const;
 	double raise_pension(int pension);
 	string info() const;
-	void serialize(ostream& save);
+	void serialize(ostream& save) const;
 	static Pensioner deserialize(istream& save);
 	
 };
@@ -198,7 +198,7 @@ string Man::info() const{
 	
 }
 
-void Man::serialize(ostream& save) {
+void Man::serialize(ostream& save) const {
 	
 	save << ((is_a_mammal) ? "true" : "false") << '\n';
 	save << pesel << '\n';
@@ -337,7 +337,7 @@ string Student::info() const {
 	return (Man::info()) + stream.str();
 }
 
-void Student::serialize(ostream& save) {
+void Student::serialize(ostream& save) const {
 	
 	Man::serialize(save);
 	save << university << '\n';
@@ -437,7 +437,7 @@ string Pensioner::info() const {
 	
 }
 
-void Pensioner::serialize(ostream& save) {
+void Pensioner::serialize(ostream& save) const {
 	
 	Man::serialize(save);
 	save << pension << '\n';
