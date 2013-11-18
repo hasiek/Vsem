@@ -8,6 +8,9 @@
  * hatarzyna@gmail.com
  * 
  */
+ 
+#ifndef STUDENT_H
+#define STUDENT_H
 
 class Student : public Man {
 private:
@@ -39,3 +42,5 @@ public:
 	static Student deserialize(std::istream& save);
 	
 };
+
+#endif
