@@ -8,6 +8,11 @@
  * hatarzyna@gmail.com
  * 
  */
+ 
+#include "man.h"
+ 
+#ifndef PENSIONER_H
+#define PENSIONER_H
 
 class Pensioner : public Man {
 private:
@@ -31,3 +36,5 @@ public:
 	static Pensioner deserialize(std::istream& save);
 	
 };
+
+#endif

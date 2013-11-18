@@ -8,6 +8,9 @@
  * hatarzyna@gmail.com
  * 
  */
+
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
  
 class Exception {
 private:
@@ -17,3 +20,5 @@ public:
 		message(what){};
 	std::string get_reason() const ;
 };
+
+#endif
