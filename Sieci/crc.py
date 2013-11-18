@@ -3,7 +3,7 @@
 from bitarray import bitarray
 
 # fixed key
-key = bitarray([True, False, True, False])
+key = bitarray([True, True, False, False])
 #print key
 
 i = 0
@@ -13,13 +13,18 @@ with open('1535-Tenderness.jpg', 'rb') as fh:
   
 for i in range (0, 3):
 	a.append(False)
-  
-while (i != len(a) - 5):
-	#print i
-	for x in range(i, i+4):
-		#print "Poprzednie: " + str(a[i])
-		a[i] = a[i] ^ key[x-i]
-		#print "Obecne: " + str(a[i])
-	i += 1
+
 	
+i = 0
+  
+for i in range(0, len(a) - 3):
+	if (a[i] == True):
+		for x in range(i, i+4):
+			#print "x: " + str(x)
+			#print "Poprzednie: " + str(a[i])
+			a[x] = a[x] ^ key[x-i]
+			#print "Obecne: " + str(a[i])
+	else:
+		continue
+
 print a[-3:]
