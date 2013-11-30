@@ -47,7 +47,7 @@ void* usun()
 {
     pthread_mutex_lock(&lock);
 	do {
-		if (&kolejka.ogon != &kolejka.glowa) {
+		if (kolejka.ogon != kolejka.glowa) {
 			printf("Usuwam element z kolejki\n");
 			kolejka.liczba_elementow -= 1;
 			kolejka.ogon -= 1;
