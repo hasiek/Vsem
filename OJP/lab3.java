@@ -3,20 +3,20 @@ import javax.swing.*;
 import java.awt.Insets;
 import java.awt.event.*;
 
-class moj_przycisk extends JButton {
+class MojPrzycisk extends JButton {
 	
 	private int stan;
 	
-	public moj_przycisk() {
+	public MojPrzycisk() {
 		super();
 		stan = 0;
 	}
 
-	public int get_stan() {
+	public int getStan() {
 		return stan;
 	}
 
-	public void set_stan(int stan) {
+	public void setStan(int stan) {
 		this.stan = stan;
 	}
 	
@@ -34,10 +34,10 @@ class JMojaFormatka extends JFrame implements ActionListener {
 	private static final int COLUMNS = 6;
 	private static final int ROWS = 5;
 	
-	private moj_przycisk przycisk;
+	private MojPrzycisk przycisk;
 	
-	public JMojaFormatka(String belka_tytulowa) {
-		super(belka_tytulowa);
+	public JMojaFormatka(String belkaTytulowa) {
+		super(belkaTytulowa);
 	}
 
 	/*public void stworz_menu() {
@@ -53,26 +53,26 @@ class JMojaFormatka extends JFrame implements ActionListener {
 		this.setJMenuBar(belka_menu);
 	}*/
 	
-	public void stworz_przycisk_nieaktywny_z_napisem(int x, int y, String etykieta) {
-		moj_przycisk przycisk = new moj_przycisk();
+	public void stworzPrzyciskNieaktywnyZNapisem(int x, int y, String etykieta) {
+		MojPrzycisk przycisk = new MojPrzycisk();
 		przycisk.setText(etykieta);
 		przycisk.setBounds(x, y, WIDTH, HEIGHT);
 		przycisk.setMargin(new Insets(0, 0, 0, 0));
 		this.add(przycisk);
 	}
 	
-	public void stworz_przycisk_nieaktywny_z_ikona(int x, int y, String sciezka) {
+	public void stworzPrzyciskNieaktywnyZIkona(int x, int y, String sciezka) {
 		ImageIcon img = new ImageIcon(sciezka);
-		moj_przycisk przycisk = new moj_przycisk();
+		MojPrzycisk przycisk = new MojPrzycisk();
 		przycisk.setIcon(img);
 		przycisk.setBounds(x, y, WIDTH, HEIGHT);
 		przycisk.setMargin(new Insets(0, 0, 0, 0));
 		this.add(przycisk);
 	}
 	
-	public void stworz_przycisk_aktywny(int x, int y) {
+	public void stworzPrzyciskAktywny(int x, int y) {
 		ImageIcon img = new ImageIcon("/home/hasiek/Pictures/OJP26112013/0.gif");
-		moj_przycisk przycisk = new moj_przycisk();
+		MojPrzycisk przycisk = new MojPrzycisk();
 		przycisk.setIcon(img);
 		//przycisk.setText(String.valueOf(przycisk.get_stan()));
 		przycisk.setBounds(x, y, WIDTH, HEIGHT);
@@ -81,38 +81,38 @@ class JMojaFormatka extends JFrame implements ActionListener {
 		
 	}
 	
-	public void rysuj_przyciski() {
+	public void rysujPrzyciski() {
 		for(int i = 0; i < ROWS; i++) {
 			for(int j = 0; j < COLUMNS; j++) {
 				if (i == 0 && j == 0)
-					stworz_przycisk_nieaktywny_z_napisem(j*WIDTH, i*HEIGHT, " ");	
+					stworzPrzyciskNieaktywnyZNapisem(j*WIDTH, i*HEIGHT, " ");	
 				else if(i == 0 && j > 0) 
-					stworz_przycisk_nieaktywny_z_napisem(j*WIDTH, i*HEIGHT, String.valueOf(j-1));
+					stworzPrzyciskNieaktywnyZNapisem(j*WIDTH, i*HEIGHT, String.valueOf(j-1));
 				else if(j == 0 && i > 0)
-					stworz_przycisk_nieaktywny_z_ikona(j*WIDTH, i*HEIGHT, "/home/hasiek/Pictures/OJP26112013/"+String.valueOf(i-1)+".gif");
+					stworzPrzyciskNieaktywnyZIkona(j*WIDTH, i*HEIGHT, "/home/hasiek/Pictures/OJP26112013/"+String.valueOf(i-1)+".gif");
 				else
-					stworz_przycisk_aktywny(j*WIDTH, i*HEIGHT);
+					stworzPrzyciskAktywny(j*WIDTH, i*HEIGHT);
 			}
 		}
 	}
 
 	public void naprzod() {
 		setLayout(null);
-		rysuj_przyciski();
+		rysujPrzyciski();
 		setSize(98,109);
 		setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Object co_kliknieto = e.getSource();
+		Object coKliknieto = e.getSource();
 		
 		// DLACZEGO Z IFEM NIE DZIAŁA?
 		
-		//if(co_kliknieto == przycisk) {
-			moj_przycisk przycisk1 = (moj_przycisk) co_kliknieto;
+		//if(coKliknieto == przycisk) {
+			MojPrzycisk przycisk1 = (MojPrzycisk) coKliknieto;
 			przycisk1.klik();
 			// przycisk.setText(String.valueOf((przycisk.get_stan()+1)%4));
-			String img = "/home/hasiek/Pictures/OJP26112013/"+String.valueOf(przycisk1.get_stan())+".gif";
+			String img = "/home/hasiek/Pictures/OJP26112013/"+String.valueOf(przycisk1.getStan())+".gif";
 			przycisk1.setIcon(new ImageIcon(img));
 		//}
 	}
