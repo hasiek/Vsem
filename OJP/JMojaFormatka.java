@@ -58,6 +58,11 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 		this.setJMenuBar(belkaMenu);
 	}
 	
+	/* 
+	 * Fragment taki sam dla wszystkich metod tworzacych przyciski,
+	 * wiec wywalony do osobnej metody 
+	 */
+	
 	public JButton przyciskBaza(int x, int y) {
 		JButton przycisk = new JButton();
 		przycisk.setBounds(x, y, WIDTH, HEIGHT);
@@ -65,11 +70,21 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 		return przycisk;
 	}
 	
+	/* 
+	 * Przyciski na pierwszy wiersz (z cyferkami).
+	 * Nie reaguja nijak na kliki - nie maja ActionListenera.
+	 */
+	
 	public void stworzPrzyciskNieaktywnyZNapisem(int x, int y, String etykieta) {
 		JButton przycisk = przyciskBaza(x, y);
 		przycisk.setText(etykieta);
 		this.add(przycisk);
 	}
+	
+	/*
+	 * Przyciski na pierwsza kolumne (z ikonami).
+	 * Nie reaguja nijak na kliki - nie maja ActionListenera.
+	 */
 	
 	public void stworzPrzyciskNieaktywnyZIkona(int x, int y, String sciezka) {
 		ImageIcon img = new ImageIcon(sciezka);
@@ -77,6 +92,10 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 		przycisk.setIcon(img);
 		this.add(przycisk);
 	}
+	
+	/*
+	 * Przyciski robiace rzeczy. Maja ActionListenera.
+	 */
 	
 	public void stworzPrzyciskAktywny(int x, int y) {
 		int stan = stany.getStan(x/WIDTH, y/HEIGHT);
@@ -86,6 +105,12 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 		przycisk.addActionListener(this);
 		this.add(przycisk);
 	}
+	
+	/*
+	 * Metoda rysuje przyciski zgodnie z ich pozycjami docelowymi.
+	 * Pozycje przycisku okresla indeks pomnozony przez 
+	 * szerokosc/wysokosc przycisku.
+	 */
 	
 	public void rysujPrzyciski() {
 		for(int i = 0; i < ROWS; i++) {
@@ -104,6 +129,16 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 		
 	}
 	
+	/*
+	 * Metoda do wczytywania na przyciski zserializowanego ukladu ikon.
+	 * Indeksy dziwne, bo this.add(przycisk);
+	 * opakowuje przycisk w piec pieter kontenerow.
+	 * GetBounds() je pomija, ale findComponent() juz nie.
+	 * 
+	 * UWAGA: indeksy wyznaczone doswiadczalnie,
+	 * przy jakiejkolwiek zmianie ukladu przyciskow trzeba je wyznaczyc na nowo.
+	 */
+	
 	public void przerysujPrzyciski() {
 		for(int i = 3; i < ROWS+2; i++) {
 			for(int j = 2; j < COLUMNS+1; j++) {
@@ -113,6 +148,11 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 			}
 		}
 	}
+	
+	/*
+	 * Tworzy JFileChooser z filtrem na pliki .out
+	 * Zmiana filtra poprzez zmiane stalej wybraneRozsz ^
+	 */
 	
 	public void stworz_wczytywacz() {
 		wczytywacz = new JFileChooser();
@@ -142,9 +182,7 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 				String plik = wczytywacz.getSelectedFile().getAbsolutePath();
 				stany = Stan.odtworz(plik);
 				przerysujPrzyciski();
-			} catch (ClassNotFoundException
-					| IOException e1) {
-				// TODO Auto-generated catch block
+			} catch (ClassNotFoundException | IOException e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -154,10 +192,17 @@ public class JMojaFormatka extends JFrame implements ActionListener, Serializabl
 				String plik = wczytywacz.getSelectedFile().getAbsolutePath();
 				stany.zapisz(plik);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
+		/*
+		 * Nie ma ActionListenera na cokolwiek innego niz aktywne przyciski,
+		 * wiec mozna je obsluzyc zwyklym elsem, pewnie bedzie szybciej.
+		 * 
+		 * Dobranie sie do odpowiedniego pola w tablicy stanow obywa sie poprzez
+		 * podzielenie wspolrzednych przycisku przez jego wysokosc i szerokosc.
+		 * 
+		 */
 		else {
 			JButton przycisk = (JButton) coKliknieto;
 			int x = przycisk.getBounds().x/WIDTH;
